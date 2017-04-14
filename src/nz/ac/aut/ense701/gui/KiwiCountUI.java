@@ -2,7 +2,15 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
@@ -30,7 +38,8 @@ public class KiwiCountUI
         this.game = game;
         setAsGameListener();
         initComponents();
-        initIslandGrid();
+        addMovingKeyActions();
+        initIslandGrid();     
         update();
     }
     
@@ -313,6 +322,10 @@ public class KiwiCountUI
                 btnMoveNorthActionPerformed(evt);
             }
         });
+      
+        
+       
+        
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -601,6 +614,95 @@ public class KiwiCountUI
             }
         }
     }
+    
+    //Method for adding KeyListener to all components
+    //Reason for adding KeyListener to all components is to avoid Losing Focus, making the keys not work properly. 
+    public void addMovingKeyActions(){
+    	this.setFocusable(true);
+  	  	setKeyListener(this);
+  	  	/////
+  	  	pnlIsland.setFocusable(true);
+  	    setKeyListener(pnlIsland);
+  	  	//////
+  	    setKeyListener(btnCollect);
+  	    ////
+  	    setKeyListener(btnCount);
+  	    ////	
+  	    setKeyListener(btnDrop);
+  	    //// 
+  	    setKeyListener(btnMoveEast);
+      	////
+  	    setKeyListener(btnMoveNorth);
+  	    ////
+  	    setKeyListener(btnMoveSouth);
+  	    ///
+  	    setKeyListener(btnMoveWest);
+  	    ///
+  	    setKeyListener(btnUse);
+  	    ///
+  	    setKeyListener(lblKiwisCounted);
+  	    ///
+  	    setKeyListener(lblPredators);
+  	    ///  
+  	    setKeyListener(listInventory);
+  	    ///
+  	    setKeyListener(listObjects);
+  	    ///
+  	    setKeyListener(progBackpackSize);
+  	    ///
+  	    setKeyListener(progBackpackWeight);
+  	    /// 
+  	    setKeyListener(progPlayerStamina);
+  	    ///
+  	    setKeyListener(txtKiwisCounted);
+  	    ///
+  	    setKeyListener(txtPlayerName);
+  	    ///
+  	    setKeyListener(txtPredatorsLeft);	
+  	  	
+    }
+    
+    public void setKeyListener(Component c){   	
+    	c.addKeyListener(new java.awt.event.KeyListener(){
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// Keys Explanation: UP for moving North, Down for South, Right for East, Left for West.
+				// Keys Explanation: Z for Item Use, X for Item Drop, C for Item Collect, Space for Kiwi Count.
+				 if (e.getKeyCode()==KeyEvent.VK_UP){
+					 btnMoveNorth.doClick();
+			        }
+				if (e.getKeyCode()==KeyEvent.VK_DOWN){
+					 btnMoveSouth.doClick();
+			        }
+				if (e.getKeyCode()==KeyEvent.VK_RIGHT){
+					 btnMoveEast.doClick();
+			        }
+				 if (e.getKeyCode()==KeyEvent.VK_LEFT){
+					 btnMoveWest.doClick();
+			        }
+				 if (e.getKeyCode()==KeyEvent.VK_Z){
+					 btnUse.doClick();
+			        }
+				 if (e.getKeyCode()==KeyEvent.VK_X){
+					 btnDrop.doClick();
+			        }
+				 if (e.getKeyCode()==KeyEvent.VK_C){
+					 btnCollect.doClick();
+			        }
+				 if (e.getKeyCode()==KeyEvent.VK_SPACE){
+					 btnCount.doClick();
+			        }
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}        	
+        });   	
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCollect;
