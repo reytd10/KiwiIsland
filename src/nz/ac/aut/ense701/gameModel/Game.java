@@ -49,6 +49,7 @@ public class Game
         totalKiwis = 0;
         predatorsTrapped = 0;
         kiwiCount = 0;
+        itemUsage = 0;
         initialiseIslandFromFile("IslandData.txt");
         drawIsland();
         state = GameState.PLAYING;
@@ -205,7 +206,13 @@ public class Game
         return playerValues;
         
     }
-    
+    /**
+     * How many items has the player used?
+     * @return number if times an item has successfully been used.
+     */
+    public int getItemUsage(){
+        return itemUsage;
+    }
     /**
      * How many kiwis have been counted?
      * @return count
@@ -223,7 +230,13 @@ public class Game
     {
         return totalPredators - predatorsTrapped;
     }
-    
+    /**
+     * How many predators have been trapped?
+     * @return number of predators trapped.
+     */
+    public int getPredatorTrapped(){
+        return predatorsTrapped;
+    }
     /**
      * Get contents of player backpack
      * @return objects in backpack
@@ -450,6 +463,7 @@ public class Game
             player.drop(food);
             // use successful: everybody has to know that
             notifyGameEventListeners();
+            itemUsage++;
         }
         else if (item instanceof Tool)
         {
@@ -847,6 +861,7 @@ public class Game
     private int totalPredators;
     private int totalKiwis;
     private int predatorsTrapped;
+    private int itemUsage;
     private Set<GameEventListener> eventListeners;
     
     private final double MIN_REQUIRED_CATCH = 0.8;

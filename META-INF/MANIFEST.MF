@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: KiwiIsland_
+Bundle-SymbolicName: KiwiIsland_
+Bundle-Version: 1.0.0.qualifier
+Export-Package: nz.ac.aut.ense701.database,
+ nz.ac.aut.ense701.gameModel,
+ nz.ac.aut.ense701.gui,
+ nz.ac.aut.ense701.main

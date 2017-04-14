@@ -4,12 +4,17 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import nz.ac.aut.ense701.database.Manager;
+import nz.ac.aut.ense701.database.Score;
 
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
@@ -27,7 +32,9 @@ public class KiwiCountUI
     extends javax.swing.JFrame 
     implements GameEventListener
 {
-
+    
+private Manager database;
+private Score userScore;
     /**
      * Creates a GUI for the KiwiIsland game.
      * @param game the game object to represent with this GUI.
@@ -36,13 +43,21 @@ public class KiwiCountUI
     {
         assert game != null : "Make sure game object is created before UI";
         this.game = game;
+        database = new Manager("HighscoreDB","Scores");
         setAsGameListener();
         initComponents();
+        initClosingEvent();
         addMovingKeyActions();
         initIslandGrid();     
         update();
     }
-    
+    private void initClosingEvent(){
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+    }
     /**
      * This method is called by the game model every time something changes.
      * Trigger an update.
@@ -59,6 +74,8 @@ public class KiwiCountUI
                     this, 
                     game.getLoseMessage(), "Game over!",
                     JOptionPane.INFORMATION_MESSAGE);
+            handleDatabase();
+            
             game.createNewGame();
         }
         else if ( game.getState() == GameState.WON )
@@ -67,6 +84,7 @@ public class KiwiCountUI
                     this, 
                     game.getWinMessage(), "Well Done!",
                     JOptionPane.INFORMATION_MESSAGE);
+            handleDatabase();
             game.createNewGame();
         }
         else if (game.messageForPlayer())
@@ -77,12 +95,33 @@ public class KiwiCountUI
                     JOptionPane.INFORMATION_MESSAGE);   
         }
     }
-    
-     private void setAsGameListener()
+    private void handleDatabase(){
+        userScore = new Score(null, game.getKiwiCount(), game.getPredatorTrapped(), game.getPlayer().getStaminaLevel(), game.getItemUsage());
+        if(database.lowestScore == null || database.lowestScore > this.userScore.score){
+            try {
+                userScore.name = (String) JOptionPane.showInputDialog(this, "You've achieved a highscore! what is your name?",null);
+                database.pushToDB(userScore);
+            } catch (SQLException ex) {
+                System.err.println("Error: "+ex);
+            }
+        }
+        DatabaseUI databaseUI = new DatabaseUI(database);
+        databaseUI.setVisible(true);
+    }
+    private void setAsGameListener()
     {
        game.addGameEventListener(this); 
     }
-     
+    
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
+        if(database != null){
+            try {
+                database.close();
+            } catch (SQLException ex) {
+                System.err.println("ERROR "+ex);
+            }
+        }
+    }
     /**
      * Updates the state of the UI based on the state of the game.
      */
@@ -322,10 +361,6 @@ public class KiwiCountUI
                 btnMoveNorthActionPerformed(evt);
             }
         });
-      
-        
-       
-        
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;

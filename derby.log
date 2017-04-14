@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sat Apr 15 00:18:42 NZST 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.3 - (1557168): instance a816c00e-015b-6c66-b62f-00000e622598 
+on database directory C:\Users\ROG\Documents\SoftwareEngineering\KiwiIsland+\HighscoreDB with class loader sun.misc.Launcher$AppClassLoader@610455d6 
+Loaded from file:/C:/Program%20Files/Java/jdk1.8.0_31/db/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_31-b13
+user.dir=C:\Users\ROG\Documents\SoftwareEngineering\KiwiIsland+
+os.name=Windows 8.1
+os.arch=amd64
+os.version=6.3
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
