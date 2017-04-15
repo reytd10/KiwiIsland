@@ -58,16 +58,8 @@ public class Manager {
     }
     
     public Score getScore(int index) throws SQLException{
-        rs = stmt.executeQuery("SELECT * FROM "+TABLE+" WHERE ID="+(index-1));
-        rs.next();
-        
-        String name = rs.getString(2);
-        int kiwi = rs.getInt(4);
-        int predator = rs.getInt(5);
-        int stamina = rs.getInt(6);
-        int items = rs.getInt(7);
-        Score score = new Score(name, kiwi, predator, stamina, items);
-        rs.close();
+        ArrayList<Score> data = getData();
+        Score score = data.get(index-1);
         return score;
     }
     //Checks if the 'SCORES' table exists.

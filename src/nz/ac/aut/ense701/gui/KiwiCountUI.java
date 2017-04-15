@@ -646,7 +646,7 @@ private Score userScore;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        System.out.println("R");
+        System.out.println("Reset");
         restart();
     }//GEN-LAST:event_jButton1ActionPerformed
     
@@ -726,31 +726,39 @@ private Score userScore;
 				// Keys Explanation: UP for moving North, Down for South, Right for East, Left for West.
 				// Keys Explanation: Z for Item Use, X for Item Drop, C for Item Collect, Space for Kiwi Count.
 				 if (e.getKeyCode()==KeyEvent.VK_UP){
+                                     System.out.println("Move North");
 					 btnMoveNorth.doClick();
 			        }
 				if (e.getKeyCode()==KeyEvent.VK_DOWN){
+                                    System.out.println("Move South");
 					 btnMoveSouth.doClick();
 			        }
 				if (e.getKeyCode()==KeyEvent.VK_RIGHT){
+                                    System.out.println("Move East");
 					 btnMoveEast.doClick();
 			        }
 				 if (e.getKeyCode()==KeyEvent.VK_LEFT){
+                                     System.out.println("Move West");
 					 btnMoveWest.doClick();
 			        }
 				 if (e.getKeyCode()==KeyEvent.VK_Z){
+                                     System.out.println("Use Items");
 					 btnUse.doClick();
 			        }
 				 if (e.getKeyCode()==KeyEvent.VK_X){
+                                     System.out.println("Drop Items");
 					 btnDrop.doClick();
 			        }
 				 if (e.getKeyCode()==KeyEvent.VK_C){
+                                     System.out.println("Colect Items");
 					 btnCollect.doClick();
 			        }
 				 if (e.getKeyCode()==KeyEvent.VK_SPACE){
+                                     System.out.println("Count Kiwi");
 					 btnCount.doClick();
 			        }
                                    if (e.getKeyCode()==KeyEvent.VK_R){
-                                     System.out.println("R");
+                                     System.out.println("Reset");
 					 jButton1.doClick();
 			        }
 			}
