@@ -1,7 +1,9 @@
 package nz.ac.aut.ense701.main;
 
 import nz.ac.aut.ense701.gameModel.Game;
+import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gui.KiwiCountUI;
+import nz.ac.aut.ense701.gui.Menu;
 
 /**
  * Kiwi Count Project
@@ -16,21 +18,30 @@ public class Main
      * 
      * @param args the command line arguments
      */
+    
+    private static GameState state = GameState.MENU;
     public static void main(String[] args) 
     {
-        // create the game object
-        final Game game = new Game();
-        // create the GUI for the game
-        final KiwiCountUI  gui  = new KiwiCountUI(game);
+        //create a start / title scren menu
+        final Menu menuGUI = new Menu();
+
         // make the GUI visible
         java.awt.EventQueue.invokeLater(new Runnable() 
         {
             @Override
             public void run() 
             {
-                gui.setVisible(true);
+                menuGUI.setVisible(true);
             }
         });
+    }
+    
+    public static GameState getState(){
+        return state;
+    }
+    
+    public static void setGameState(GameState s){
+        state = s;
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
+import nz.ac.aut.ense701.main.Main;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state
@@ -34,7 +35,7 @@ public class Game
     public Game() 
     {   
         eventListeners = new HashSet<GameEventListener>();
-
+        
         createNewGame();
     }
     
@@ -51,7 +52,7 @@ public class Game
         kiwiCount = 0;
         initialiseIslandFromFile("IslandData.txt");
         drawIsland();
-        state = GameState.PLAYING;
+        Main.setGameState(GameState.PLAYING);
         winMessage = "";
         loseMessage = "";
         playerMessage = "";
@@ -87,7 +88,7 @@ public class Game
      */
     public GameState getState()
     {
-        return state;
+        return Main.getState();
     }    
  
     /**
@@ -552,19 +553,19 @@ public class Game
          String message = "";
         if ( !player.isAlive() )
         {
-            state = GameState.LOST;
+            Main.setGameState(GameState.LOST);
             message = "Sorry, you have lost the game. " + this.getLoseMessage();
             this.setLoseMessage(message);
         }
         else if (!playerCanMove() )
         {
-            state = GameState.LOST;
+            Main.setGameState(GameState.LOST);
             message = "Sorry, you have lost the game. You do not have sufficient stamina to move.";
             this.setLoseMessage(message);
         }
         else if(predatorsTrapped == totalPredators)
         {
-            state = GameState.WON;
+            Main.setGameState(GameState.WON);
             message = "You win! You have done an excellent job and trapped all the predators.";
             this.setWinMessage(message);
         }
@@ -572,7 +573,7 @@ public class Game
         {
             if(predatorsTrapped >= totalPredators * MIN_REQUIRED_CATCH)
             {
-                state = GameState.WON;
+                Main.setGameState(GameState.WON);
                 message = "You win! You have counted all the kiwi and trapped at least 80% of the predators.";
                 this.setWinMessage(message);
             }
@@ -842,7 +843,6 @@ public class Game
 
     private Island island;
     private Player player;
-    private GameState state;
     private int kiwiCount;
     private int totalPredators;
     private int totalKiwis;
