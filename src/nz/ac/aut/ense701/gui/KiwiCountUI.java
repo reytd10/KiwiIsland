@@ -210,6 +210,7 @@ private Score userScore;
         btnMoveSouth = new javax.swing.JButton();
         btnMoveEast = new javax.swing.JButton();
         btnMoveWest = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         javax.swing.JPanel pnlInventory = new javax.swing.JPanel();
         javax.swing.JScrollPane scrlInventory = new javax.swing.JScrollPane();
         listInventory = new javax.swing.JList();
@@ -424,6 +425,15 @@ private Score userScore;
         gridBagConstraints.weighty = 1.0;
         pnlMovement.add(btnMoveWest, gridBagConstraints);
 
+        jButton1.setText("Reset");
+        jButton1.setActionCommand("reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlMovement.add(jButton1, new java.awt.GridBagConstraints());
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -633,6 +643,12 @@ private Score userScore;
     private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
         game.countKiwi();
     }//GEN-LAST:event_btnCountActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("R");
+        restart();
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     /**
      * Creates and initialises the island grid.
@@ -735,7 +751,7 @@ private Score userScore;
 			        }
                                    if (e.getKeyCode()==KeyEvent.VK_R){
                                      System.out.println("R");
-					 restart();
+					 jButton1.doClick();
 			        }
 			}
 			@Override
@@ -758,6 +774,7 @@ private Score userScore;
     private javax.swing.JButton btnMoveSouth;
     private javax.swing.JButton btnMoveWest;
     private javax.swing.JButton btnUse;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lblKiwisCounted;
     private javax.swing.JLabel lblPredators;
     private javax.swing.JList listInventory;
