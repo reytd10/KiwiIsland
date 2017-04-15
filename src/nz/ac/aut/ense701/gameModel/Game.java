@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
+import nz.ac.aut.ense701.main.Main;
 
 /**
  * This is the class that knows the Kiwi Island game rules and state
