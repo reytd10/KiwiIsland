@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import nz.ac.aut.ense701.database.Manager;
@@ -34,6 +35,7 @@ public class DatabaseUI extends javax.swing.JFrame {
         setUpButtons();
         displayData();
         super.repaint();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE );
     }
     private void setUpLabels(){
         labels = new ArrayList();
