@@ -339,6 +339,7 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Reset"/>
                     <Property name="actionCommand" type="java.lang.String" value="reset"/>
+                    <Property name="focusable" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>

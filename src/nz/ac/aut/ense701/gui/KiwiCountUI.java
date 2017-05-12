@@ -430,6 +430,7 @@ private Score userScore;
 
         jButton1.setText("Reset");
         jButton1.setActionCommand("reset");
+        jButton1.setFocusable(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

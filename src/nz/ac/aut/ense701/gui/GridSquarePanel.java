@@ -69,11 +69,11 @@ public class GridSquarePanel extends javax.swing.JPanel
             }
             //Adding icon image to Predator tiles.
              if(game.getOccupantStringRepresentation(row,column).equals("P")){
-                Image image = ImageIO.read(getClass().getResource("/assets/predator.png"));
+                Image image = ImageIO.read(getClass().getResource("/assets/predatorB.png"));
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
                 lblText.setText(""); 
-                color = new Color(Math.min(255, color.getRed()));
+                
                 
             }
             // Set the colour. 
