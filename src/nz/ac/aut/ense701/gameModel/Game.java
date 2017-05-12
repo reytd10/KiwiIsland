@@ -1,5 +1,6 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
+import javax.imageio.ImageIO;
 import nz.ac.aut.ense701.main.Main;
 
 /**
@@ -104,7 +106,7 @@ public class Game
         if(whichOccupant !=null && whichOccupant instanceof Occupant)
         {
             Occupant occupant = (Occupant) whichOccupant;
-            description = occupant.getDescription();
+            description = occupant.getDescription();         
         }
         return description;
     }
@@ -841,6 +843,12 @@ public class Game
             else if ( occType.equals("K") )
             {
                 occupant = new Kiwi(occPos, occName, occDesc);
+                BufferedImage image = null;
+                try{
+                 image = ImageIO.read(getClass().getResource("/assets/kiwi.png"));
+            
+                   } catch(Exception e){e.printStackTrace();}
+            
                 totalKiwis++;
             }
             else if ( occType.equals("P") )

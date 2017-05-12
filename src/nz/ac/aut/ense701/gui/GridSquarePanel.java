@@ -1,6 +1,10 @@
 package nz.ac.aut.ense701.gui;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import nz.ac.aut.ense701.gameModel.Game;
@@ -32,7 +36,7 @@ public class GridSquarePanel extends javax.swing.JPanel
     /**
      * Updates the representation of the grid square panel.
      */
-    public void update()
+    public void update() throws IOException
     {
         // get the GridSquare object from the world
         Terrain terrain   = game.getTerrain(row, column);
@@ -55,6 +59,25 @@ public class GridSquarePanel extends javax.swing.JPanel
         {
             // Set the text of the JLabel according to the occupant
             lblText.setText(game.getOccupantStringRepresentation(row,column));
+            //Adding icon image to Kiwi tiles.
+            if(game.getOccupantStringRepresentation(row,column).equals("K")){
+                Image image = ImageIO.read(getClass().getResource("/assets/kiwi.png"));
+                ImageIcon icon = new ImageIcon(image); 
+                lblText.setIcon(icon);
+                lblText.setText("");
+            }
+            //Adding icon image to Predator tiles.
+             if(game.getOccupantStringRepresentation(row,column).equals("P")){
+                Image image = ImageIO.read(getClass().getResource("/assets/predator.png"));
+                ImageIcon icon = new ImageIcon(image); 
+                lblText.setIcon(icon);
+                lblText.setText("");
+                if(terrain == terrain.SCRUB){
+                      color = new Color(Math.min(255, color.getRed()   + 100), 
+                                  Math.min(255, color.getGreen() + 100), 
+                                  Math.min(255, color.getBlue()  + 100));
+                }
+            }
             // Set the colour. 
             if ( squareVisible && !squareExplored ) 
             {
@@ -72,6 +95,7 @@ public class GridSquarePanel extends javax.swing.JPanel
         {
             lblText.setText("");
             lblText.setBackground(null);
+            lblText.setIcon(null);
             setBorder(normalBorder);
         }
     }
