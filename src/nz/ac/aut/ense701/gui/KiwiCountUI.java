@@ -59,9 +59,10 @@ private Score userScore;
         });
     }
        public void restart(){
-        game.getPlayer().moveToPosition(game.inipos, game.getTerrain(game.inipos.getRow(),game.inipos.getColumn()));
+       /* game.getPlayer().moveToPosition(game.inipos, game.getTerrain(game.inipos.getRow(),game.inipos.getColumn()));
         game.getIsland().updatePlayerPosition(game.getPlayer());
-        gameStateChanged();
+        gameStateChanged();*/
+           game.createNewGame();
         progPlayerStamina.setValue(100);
     }
     /**
@@ -140,7 +141,9 @@ private Score userScore;
             // all components in the panel are GridSquarePanels,
             // so we can safely cast
             GridSquarePanel gsp = (GridSquarePanel) c;
+            try{
             gsp.update();
+            } catch(Exception e){e.printStackTrace();}
         }
         
         // update player information
