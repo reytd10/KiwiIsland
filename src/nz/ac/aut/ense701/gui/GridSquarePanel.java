@@ -76,6 +76,26 @@ public class GridSquarePanel extends javax.swing.JPanel
                 color = new Color(Math.min(255, color.getRed()));
                 
             }
+            //Adding icon image to tool tiles.
+            if(game.getOccupantStringRepresentation(row, column).equals("T")){
+                System.out.print("A Tool");
+                if(game.getOccupantName(row, column).equals("Trap")) {
+                    System.out.print("A Trap");
+                    Image image = ImageIO.read(getClass().getResource("/assets/trap.png"));
+                    ImageIcon icon = new ImageIcon(image); 
+                    lblText.setIcon(icon);
+                    lblText.setText(""); 
+                    
+                }
+                if(game.getOccupantName(row, column).equals("Screwdriver")) {
+                    System.out.print("A Screwdriver");
+                    Image image = ImageIO.read(getClass().getResource("/assets/screwdriver.png"));
+                    ImageIcon icon = new ImageIcon(image); 
+                    lblText.setIcon(icon);
+                    lblText.setText(""); 
+                    
+                }
+            }
             // Set the colour. 
             if ( squareVisible && !squareExplored ) 
             {

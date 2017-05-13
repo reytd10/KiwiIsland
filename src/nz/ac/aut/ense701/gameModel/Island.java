@@ -1,5 +1,9 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 /**
  * A class to represent an island in the world on which the game is played.
  * @author AS
@@ -137,6 +141,17 @@ public class Island
         return square.getOccupantStringRepresentation();
     }
     
+    public String getOccupantName(Position position){
+        String occName = "";
+        GridSquare square = getGridSquare(position);
+        Occupant[] occArry = square.getOccupants();
+        for(int i=0; i<occArry.length; i++){
+            if (occArry[i].getStringRepresentation().equals("T")){
+                occName = occArry[i].getName();
+            }
+        }
+        return occName;
+    }
     /**
      * Checks if this position contains a predator.
      * @param position which position 
@@ -299,7 +314,7 @@ public class Island
             {
                 GridSquare g = islandGrid[row][col];
                 // create string with occupants
-                String cellOccupant = g.hasPlayer() ? "@" : " ";
+                String cellOccupant = g.hasPlayer() ? "@" : " "; 
                 cellOccupant += g.getOccupantStringRepresentation();
                 for ( int i = cellOccupant.length() ; i < CELL_SIZE ; i++ ) {
                     cellOccupant += " ";
