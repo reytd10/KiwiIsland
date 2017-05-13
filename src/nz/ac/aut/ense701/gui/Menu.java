@@ -5,6 +5,9 @@
  */
 package nz.ac.aut.ense701.gui;
 
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import nz.ac.aut.ense701.database.Manager;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameState;
@@ -22,7 +25,7 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
-        Main.setGameState(GameState.MENU);
+        Main.setGameState(GameState.MENU);            
     }
 
     /**
