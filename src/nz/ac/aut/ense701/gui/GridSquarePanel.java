@@ -59,6 +59,28 @@ public class GridSquarePanel extends javax.swing.JPanel
         {
             // Set the text of the JLabel according to the occupant
             lblText.setText(game.getOccupantStringRepresentation(row,column));
+               //Adding icon image to tool tiles.
+             if(game.getOccupantStringRepresentation(row, column).equals("T")){
+                System.out.print("A Tool");
+                if(game.getOccupantName(row, column).equals("Trap")) {
+                     System.out.print("A Trap");
+                     Image image = ImageIO.read(getClass().getResource("/assets/trap1.png"));
+                     ImageIcon icon = new ImageIcon(image);                      
+                     lblText.setIcon(icon);
+                     lblText.setText("");   
+                 }
+                 if(game.getOccupantName(row, column).equals("Screwdriver")) {
+                     System.out.print("A Screwdriver");
+                     Image image = ImageIO.read(getClass().getResource("/assets/screwdriver1.png"));
+                     ImageIcon icon = new ImageIcon(image); 
+                    lblText.setIcon(icon);
+                     lblText.setText(""); 
+                     
+                 }                                   
+             }
+             else{
+                 lblText.setIcon(null);
+             }
             //Adding icon image to Kiwi tiles.
             if(game.getOccupantStringRepresentation(row,column).equals("K")){
                 Image image = ImageIO.read(getClass().getResource("/assets/kiwi.png"));
@@ -69,37 +91,13 @@ public class GridSquarePanel extends javax.swing.JPanel
             }
             //Adding icon image to Predator tiles.
              if(game.getOccupantStringRepresentation(row,column).equals("P")){
+                 
                 Image image = ImageIO.read(getClass().getResource("/assets/predatorB.png"));
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
-                lblText.setText(""); 
-                
-                
+                lblText.setText("");                 
             }
-               //Adding icon image to tool tiles.
-             if(game.getOccupantStringRepresentation(row, column).equals("T")){
-                System.out.print("A Tool");
-                if(game.getOccupantName(row, column).equals("Trap")) {
-                     System.out.print("A Trap");
-                     Image image = ImageIO.read(getClass().getResource("/assets/trap1.png"));
-                     ImageIcon icon = new ImageIcon(image); 
-                     lblText.setIcon(icon);
-                     lblText.setText(""); 
-                     
-                 }
-                 if(game.getOccupantName(row, column).equals("Screwdriver")) {
-                     System.out.print("A Screwdriver");
-                     Image image = ImageIO.read(getClass().getResource("/assets/screwdriver1.png"));
-                     ImageIcon icon = new ImageIcon(image); 
-                    lblText.setIcon(icon);
-                     lblText.setText(""); 
-                     
-                 }
-             }
-             
-             
-             
-             
+            
              
             // Set the colour. 
             if ( squareVisible && !squareExplored ) 
