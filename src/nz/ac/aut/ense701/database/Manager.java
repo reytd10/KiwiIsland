@@ -153,21 +153,4 @@ public class Manager {
         }
     }
     
-    //Used only to print the database contents to the console FOR DEBUGGING
-//    public static void main(String args[]) {
-//        Manager test = new Manager("HighscoreDB","Scores");
-//        try {
-//            //Used to add to the database:
-//            //test.pushToDB(new Score("User_2", 5, 2, 100, 1)); //500+100-0-50
-//            //Used to clear the table:
-//            //test.clearTable();
-//            ArrayList<Score> data = test.getData();
-//            for(Score record : data){
-//                System.out.println(record.toString());
-//            }
-//            test.close();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }
