@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import nz.ac.aut.ense701.database.Manager;
-import nz.ac.aut.ense701.database.Score;
+import nz.ac.aut.ense701.gameModel.Score;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

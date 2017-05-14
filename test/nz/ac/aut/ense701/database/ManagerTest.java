@@ -1,6 +1,7 @@
 
 package nz.ac.aut.ense701.database;
 
+import nz.ac.aut.ense701.gameModel.Score;
 import java.sql.SQLException;
 import java.util.Random;
 import org.junit.Test;

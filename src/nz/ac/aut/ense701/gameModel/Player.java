@@ -357,4 +357,8 @@ public class Player
             reduceStamina(getStaminaNeededToMove(terrain));
         }
     }
+    
+     public void setPosition(Position pos){
+        this.position = pos;
+    }
 }

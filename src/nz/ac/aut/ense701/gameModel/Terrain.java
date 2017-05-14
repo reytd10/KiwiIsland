@@ -11,14 +11,15 @@ package nz.ac.aut.ense701.gameModel;
  */
 public enum Terrain
 {
-    SAND(".", 1.0),
-    FOREST("*", 2.0),
-    WETLAND ("#", 2.5),
-    SCRUB("^", 3.0),
-    WATER("~", 4.0);
+    SAND(".","Sandy", 1.0),
+    FOREST("*","Forest",2.0),
+    WETLAND ("#","Wetlands",2.5),
+    SCRUB("^","Scrub",3.0),
+    WATER("~","Water",4.0);
     
     private final double difficulty;
     private final String stringRep;
+    private final String title;
     
     /**
      * Creates a new terrain with a given difficulty 
@@ -26,10 +27,11 @@ public enum Terrain
      * @param stringRep the string representation of the terrain.
      * @param difficulty the difficulty of the terrain
      */
-    private Terrain(String stringRep, double difficulty)
+    private Terrain(String stringRep,String title, double difficulty)
     {
         this.stringRep  = stringRep;
         this.difficulty = difficulty;
+        this.title = title;
     }
     
     /**
@@ -49,6 +51,11 @@ public enum Terrain
     {
         return stringRep;
     }
+    
+      public String getTitle(){
+        return title;
+    }
+    
     
     /**
      * Returns a terrain object from the terrain string representation.

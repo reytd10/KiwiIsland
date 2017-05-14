@@ -1,4 +1,4 @@
-package nz.ac.aut.ense701.database;
+package nz.ac.aut.ense701.gameModel;
 
 
 /**

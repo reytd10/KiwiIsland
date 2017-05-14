@@ -14,12 +14,13 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import nz.ac.aut.ense701.database.Manager;
-import nz.ac.aut.ense701.database.Score;
+import nz.ac.aut.ense701.gameModel.Score;
 
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameEventListener;
 import nz.ac.aut.ense701.gameModel.GameState;
 import nz.ac.aut.ense701.gameModel.MoveDirection;
+import nz.ac.aut.ense701.gameModel.Position;
 
 /*
  * User interface form for Kiwi Island.
@@ -51,6 +52,7 @@ private Score userScore;
         initIslandGrid();     
         update();
     }
+    
     private void initClosingEvent(){
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -58,11 +60,9 @@ private Score userScore;
             }
         });
     }
-       public void restart(){
-       /* game.getPlayer().moveToPosition(game.inipos, game.getTerrain(game.inipos.getRow(),game.inipos.getColumn()));
-        game.getIsland().updatePlayerPosition(game.getPlayer());
-        gameStateChanged();*/
-           game.createNewGame();
+    public void restart(){
+        game.createNewGame();
+        gameStateChanged();
         progPlayerStamina.setValue(100);
     }
     /**
@@ -143,7 +143,7 @@ private Score userScore;
             GridSquarePanel gsp = (GridSquarePanel) c;
             try{
             gsp.update();
-            } catch(Exception e){e.printStackTrace();}
+            }catch(Exception e){e.printStackTrace();}
         }
         
         // update player information
@@ -174,11 +174,14 @@ private Score userScore;
         btnCollect.setEnabled(false);
         btnCount.setEnabled(false);
         
-        // update movement buttons
-        btnMoveNorth.setEnabled(game.isPlayerMovePossible(MoveDirection.NORTH));
-        btnMoveEast.setEnabled( game.isPlayerMovePossible(MoveDirection.EAST));
-        btnMoveSouth.setEnabled(game.isPlayerMovePossible(MoveDirection.SOUTH));
-        btnMoveWest.setEnabled( game.isPlayerMovePossible(MoveDirection.WEST));
+        updateTerrain();
+    }
+    
+    private void updateTerrain(){
+        Position pos = game.getPlayer().getPosition();
+        String text = lblTerrain.getText().substring(0, 11);
+        text += game.getTerrain(pos.getRow(), pos.getColumn()).getTitle();
+        lblTerrain.setText(text);
     }
     
     /** This method is called from within the constructor to
@@ -191,6 +194,8 @@ private Score userScore;
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         javax.swing.JPanel pnlContent = new javax.swing.JPanel();
         pnlIsland = new javax.swing.JPanel();
         javax.swing.JPanel pnlControls = new javax.swing.JPanel();
@@ -208,12 +213,10 @@ private Score userScore;
         lblKiwisCounted = new javax.swing.JLabel();
         txtKiwisCounted = new javax.swing.JLabel();
         txtPredatorsLeft = new javax.swing.JLabel();
-        javax.swing.JPanel pnlMovement = new javax.swing.JPanel();
-        btnMoveNorth = new javax.swing.JButton();
-        btnMoveSouth = new javax.swing.JButton();
-        btnMoveEast = new javax.swing.JButton();
-        btnMoveWest = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        lblTerrain = new javax.swing.JLabel();
+        javax.swing.JPanel pnlControl = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        areaControls = new javax.swing.JTextArea();
         javax.swing.JPanel pnlInventory = new javax.swing.JPanel();
         javax.swing.JScrollPane scrlInventory = new javax.swing.JScrollPane();
         listInventory = new javax.swing.JList();
@@ -225,6 +228,10 @@ private Score userScore;
         btnCollect = new javax.swing.JButton();
         btnCount = new javax.swing.JButton();
 
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kiwi Count");
 
@@ -235,7 +242,7 @@ private Score userScore;
         pnlIsland.setLayout(pnlIslandLayout);
         pnlIslandLayout.setHorizontalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGap(0, 524, Short.MAX_VALUE)
         );
         pnlIslandLayout.setVerticalGroup(
             pnlIslandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,6 +360,9 @@ private Score userScore;
 
         pnlPlayer.add(pnlPlayerData, java.awt.BorderLayout.WEST);
 
+        lblTerrain.setText("  Terrain: ");
+        pnlPlayer.add(lblTerrain, java.awt.BorderLayout.PAGE_END);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -361,82 +371,23 @@ private Score userScore;
         gridBagConstraints.weighty = 0.5;
         pnlControls.add(pnlPlayer, gridBagConstraints);
 
-        pnlMovement.setBorder(javax.swing.BorderFactory.createTitledBorder("Movement"));
-        pnlMovement.setLayout(new java.awt.GridBagLayout());
+        pnlControl.setBorder(javax.swing.BorderFactory.createTitledBorder("Controls"));
+        pnlControl.setLayout(new java.awt.GridBagLayout());
 
-        btnMoveNorth.setText("N");
-        btnMoveNorth.setFocusable(false);
-        btnMoveNorth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoveNorthActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        pnlMovement.add(btnMoveNorth, gridBagConstraints);
+        areaControls.setEditable(false);
+        areaControls.setColumns(20);
+        areaControls.setRows(5);
+        areaControls.setText(" - [Arrow] keys to move around.\n - [Space] to count kiwi.\n - [Z] to use selected Item.\n - [X] to drop selected Item.\n - [C] to collect selected Item.\n - [R] to reset the game.");
+        areaControls.setAutoscrolls(false);
+        areaControls.setFocusable(false);
+        areaControls.setOpaque(false);
+        areaControls.setPreferredSize(new java.awt.Dimension(250, 96));
+        jScrollPane1.setViewportView(areaControls);
+        areaControls.setLineWrap(true);
 
-        btnMoveSouth.setText("S");
-        btnMoveSouth.setFocusable(false);
-        btnMoveSouth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoveSouthActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        pnlMovement.add(btnMoveSouth, gridBagConstraints);
+        areaControls.setWrapStyleWord(true);
 
-        btnMoveEast.setText("E");
-        btnMoveEast.setFocusable(false);
-        btnMoveEast.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoveEastActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        pnlMovement.add(btnMoveEast, gridBagConstraints);
-
-        btnMoveWest.setText("W");
-        btnMoveWest.setFocusable(false);
-        btnMoveWest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoveWestActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        pnlMovement.add(btnMoveWest, gridBagConstraints);
-
-        jButton1.setText("Reset");
-        jButton1.setActionCommand("reset");
-        jButton1.setFocusable(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        pnlMovement.add(jButton1, new java.awt.GridBagConstraints());
+        pnlControl.add(jScrollPane1, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -444,7 +395,8 @@ private Score userScore;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.5;
-        pnlControls.add(pnlMovement, gridBagConstraints);
+        pnlControls.add(pnlControl, gridBagConstraints);
+        pnlControl.getAccessibleContext().setAccessibleParent(pnlControl);
 
         pnlInventory.setBorder(javax.swing.BorderFactory.createTitledBorder("Inventory"));
         pnlInventory.setLayout(new java.awt.GridBagLayout());
@@ -595,22 +547,6 @@ private Score userScore;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnMoveEastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveEastActionPerformed
-        game.playerMove(MoveDirection.EAST);
-    }//GEN-LAST:event_btnMoveEastActionPerformed
-
-    private void btnMoveNorthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveNorthActionPerformed
-        game.playerMove(MoveDirection.NORTH);
-    }//GEN-LAST:event_btnMoveNorthActionPerformed
-
-    private void btnMoveSouthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveSouthActionPerformed
-        game.playerMove(MoveDirection.SOUTH);
-    }//GEN-LAST:event_btnMoveSouthActionPerformed
-
-    private void btnMoveWestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveWestActionPerformed
-        game.playerMove(MoveDirection.WEST);
-    }//GEN-LAST:event_btnMoveWestActionPerformed
-
     private void btnCollectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCollectActionPerformed
         Object obj = listObjects.getSelectedValue();
         game.collectItem(obj);
@@ -637,8 +573,7 @@ private Score userScore;
     private void listInventoryValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listInventoryValueChanged
         Object item =  listInventory.getSelectedValue();
         btnDrop.setEnabled(true);
-        if ( item != null )
-        {
+        if ( item != null ){
             btnUse.setEnabled(game.canUse(item));
             listInventory.setToolTipText(game.getOccupantDescription(item));
         }
@@ -647,12 +582,6 @@ private Score userScore;
     private void btnCountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCountActionPerformed
         game.countKiwi();
     }//GEN-LAST:event_btnCountActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        System.out.println("Reset");
-        restart();
-    }//GEN-LAST:event_jButton1ActionPerformed
     
     /**
      * Creates and initialises the island grid.
@@ -690,15 +619,7 @@ private Score userScore;
   	    setKeyListener(btnCount);
   	    ////	
   	    setKeyListener(btnDrop);
-  	    //// 
-  	    setKeyListener(btnMoveEast);
-      	////
-  	    setKeyListener(btnMoveNorth);
-  	    ////
-  	    setKeyListener(btnMoveSouth);
-  	    ///
-  	    setKeyListener(btnMoveWest);
-  	    ///
+            
   	    setKeyListener(btnUse);
   	    ///
   	    setKeyListener(lblKiwisCounted);
@@ -725,70 +646,73 @@ private Score userScore;
     
     public void setKeyListener(Component c){   	
     	c.addKeyListener(new java.awt.event.KeyListener(){
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// Keys Explanation: UP for moving North, Down for South, Right for East, Left for West.
-				// Keys Explanation: Z for Item Use, X for Item Drop, C for Item Collect, Space for Kiwi Count.
-				 if (e.getKeyCode()==KeyEvent.VK_UP){
-                                     System.out.println("Move North");
-					 btnMoveNorth.doClick();
-			        }
-				if (e.getKeyCode()==KeyEvent.VK_DOWN){
-                                    System.out.println("Move South");
-					 btnMoveSouth.doClick();
-			        }
-				if (e.getKeyCode()==KeyEvent.VK_RIGHT){
-                                    System.out.println("Move East");
-					 btnMoveEast.doClick();
-			        }
-				 if (e.getKeyCode()==KeyEvent.VK_LEFT){
-                                     System.out.println("Move West");
-					 btnMoveWest.doClick();
-			        }
-				 if (e.getKeyCode()==KeyEvent.VK_Z){
-                                     System.out.println("Use Items");
-					 btnUse.doClick();
-			        }
-				 if (e.getKeyCode()==KeyEvent.VK_X){
-                                     System.out.println("Drop Items");
-					 btnDrop.doClick();
-			        }
-				 if (e.getKeyCode()==KeyEvent.VK_C){
-                                     System.out.println("Colect Items");
-					 btnCollect.doClick();
-			        }
-				 if (e.getKeyCode()==KeyEvent.VK_SPACE){
-                                     System.out.println("Count Kiwi");
-					 btnCount.doClick();
-			        }
-                                   if (e.getKeyCode()==KeyEvent.VK_R){
-                                     System.out.println("Reset");
-					 jButton1.doClick();
-			        }
-			}
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Keys Explanation: UP for moving North, Down for South, Right for East, Left for West.
+                // Keys Explanation: Z for Item Use, X for Item Drop, C for Item Collect, Space for Kiwi Count.
+                if (e.getKeyCode()==KeyEvent.VK_UP){
+                    System.out.println("Move North");
+                    if(game.isPlayerMovePossible(MoveDirection.NORTH))
+                        game.playerMove(MoveDirection.NORTH);
+                }
+                if (e.getKeyCode()==KeyEvent.VK_DOWN){
+                    System.out.println("Move South");
+                    if(game.isPlayerMovePossible(MoveDirection.SOUTH))
+                        game.playerMove(MoveDirection.SOUTH);
+                }
+                if (e.getKeyCode()==KeyEvent.VK_RIGHT){
+                    System.out.println("Move East");
+                    if(game.isPlayerMovePossible(MoveDirection.EAST))
+                        game.playerMove(MoveDirection.EAST);
+                }
+                 if (e.getKeyCode()==KeyEvent.VK_LEFT){
+                     System.out.println("Move West");
+                     if(game.isPlayerMovePossible(MoveDirection.WEST))
+                        game.playerMove(MoveDirection.WEST);
+                }
+                 if (e.getKeyCode()==KeyEvent.VK_Z){
+                    System.out.println("Use Items");
+                        game.useItem(listInventory.getSelectedValue());
+                }
+                 if (e.getKeyCode()==KeyEvent.VK_X){
+                     System.out.println("Drop Items");
+                        game.dropItem(listInventory.getSelectedValue());
+                }
+                 if (e.getKeyCode()==KeyEvent.VK_C){
+                    System.out.println("Colect Items");
+                        game.collectItem(listObjects.getSelectedValue());
+                }
+                 if (e.getKeyCode()==KeyEvent.VK_SPACE){
+                     System.out.println("Count Kiwi");
+                        btnCount.doClick();
+                }
+                if (e.getKeyCode()==KeyEvent.VK_R){
+                    System.out.println("Reset");
+                        restart();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
 
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}        	
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }        	
         });   	
     }
     
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaControls;
     private javax.swing.JButton btnCollect;
     private javax.swing.JButton btnCount;
     private javax.swing.JButton btnDrop;
-    private javax.swing.JButton btnMoveEast;
-    private javax.swing.JButton btnMoveNorth;
-    private javax.swing.JButton btnMoveSouth;
-    private javax.swing.JButton btnMoveWest;
     private javax.swing.JButton btnUse;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblKiwisCounted;
     private javax.swing.JLabel lblPredators;
+    private javax.swing.JLabel lblTerrain;
     private javax.swing.JList listInventory;
     private javax.swing.JList listObjects;
     private javax.swing.JPanel pnlIsland;

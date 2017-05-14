@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import javax.imageio.ImageIO;
@@ -755,6 +756,9 @@ public class Game
 
             // read and setup the occupants
             setUpOccupants(input);
+            
+             // moves the player to a random starting location.
+            initialisePlayerPosition();
 
             input.close();
         }
@@ -801,14 +805,36 @@ public class Game
         double playerMaxBackpackWeight = input.nextDouble();
         double playerMaxBackpackSize   = input.nextDouble();
         
-        Position pos = new Position(island, playerPosRow, playerPosCol);
+        Position pos =  new Position(island, playerPosRow, playerPosCol);
         player = new Player(pos, playerName, 
                 playerMaxStamina, 
                 playerMaxBackpackWeight, playerMaxBackpackSize);
-        island.updatePlayerPosition(player);
+        
         inipos = pos;
     }
 
+     private void initialisePlayerPosition(){
+       Random rnd = new Random();
+        boolean isSuitable = true;
+        int row, col;
+        Position pos;
+        do{
+            isSuitable = true;
+            row = rnd.nextInt(island.getNumRows());
+            col = rnd.nextInt(island.getNumColumns());
+            pos = new Position(island, row, col);
+            for(Occupant occupant : island.getOccupants(pos)){
+                if(occupant instanceof Hazard){
+                    isSuitable = false;
+                    System.out.println("Rerolling start location.");
+                    break;
+                }
+            }
+        }while(!isSuitable);
+        
+        player.setPosition(pos);
+        island.updatePlayerPosition(player);
+    } 
     /**
      * Creates occupants listed in the file and adds them to the island.
      * @param input data from the level file
