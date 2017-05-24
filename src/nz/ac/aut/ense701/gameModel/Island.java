@@ -1,5 +1,9 @@
 package nz.ac.aut.ense701.gameModel;
 
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Set;
+
 /**
  * A class to represent an island in the world on which the game is played.
  * @author AS
@@ -214,6 +218,195 @@ public class Island
         previousPlayerPos = position;
     }
     
+    /**
+     * Gets all kiwi's on the island and calls updateKiwiPosition, 
+     * to updates their position.
+     */
+    public void updateAllKiwiPosition(){
+        ArrayList<Kiwi> kiwis = new ArrayList<Kiwi>();
+        for(int i=0; i<islandGrid.length; i++){
+            for(int j=0; j<islandGrid.length; j++){
+                GridSquare g = islandGrid[i][j];
+                Occupant[] occupants = g.getOccupants();
+                for(int k = 0; k < occupants.length; k++){
+                    if(occupants[k] instanceof Kiwi){
+                        kiwis.add((Kiwi)occupants[k]);
+                        g.removeOccupant(occupants[k]);//Remove them for updating.
+                    }
+                }
+            }
+        }
+        for(Kiwi kiwi : kiwis){
+            updateKiwiPosition(kiwi); //Will add to the occupant list of that square.
+        }
+    }
+    /**
+     * Updates the individual kiwi's location.
+     * @param kiwi kiwi to be updated.
+     */
+    private void updateKiwiPosition(Kiwi kiwi)
+    {
+        ArrayList<Position> options = new ArrayList<Position>();
+        Position previousKiwiPos = kiwi.getPosition();
+        int i = previousKiwiPos.getRow();
+        int j = previousKiwiPos.getColumn();
+        //Get all adjacent squares        
+        GridSquare[] g = new GridSquare[4];
+        if(i > 0)
+            g[0] = islandGrid[i-1][j];
+        if(i < numRows-1)
+            g[1] = islandGrid[i+1][j];
+        if(j > 0)
+            g[2] = islandGrid[i][j-1];
+        if(j < numColumns-1)
+            g[3] = islandGrid[i][j+1];
+        
+        //Check each square
+        for(int k = 0; k < 4; k++){
+            if(g[k] != null){
+                if(isSquareSafeForKiwi(g[k])){
+                    options.add(g[k].getPosition());
+                    if(hasFoodForKiwi(g[k]))
+                        options.add(g[k].getPosition());
+                }
+            }
+        }
+        //Update the position
+        Position newPosition = selectRandomOption(options);
+        kiwi.setPosition(newPosition);
+        GridSquare square = islandGrid[newPosition.getRow()][newPosition.getColumn()];
+        square.addOccupant(kiwi); //Add to occupant list
+    }
+    /**
+     * Gets all predator's on the island and calls updatePredatorPosition 
+     * to updates their positions.
+     */
+    public void updateAllPredatorPosition(){
+        ArrayList<Predator> predators = new ArrayList<Predator>();
+        for(int i=0; i<islandGrid.length; i++){
+            for(int j=0; j<islandGrid.length; j++){
+                GridSquare g = islandGrid[i][j];
+                Occupant[] occupants = g.getOccupants();
+                for(int p = 0; p < occupants.length; p++){
+                    if(occupants[p] instanceof Predator){
+                        predators.add((Predator)occupants[p]);
+                        g.removeOccupant(occupants[p]);//Remove them for updating.
+                    }
+                }
+            }
+        }
+        for(Predator predator : predators){
+            updatePredatorPosition(predator); //Will add to the occupant list of that square.
+        }
+    }
+    /**
+     * Updates the individual predator's location.
+     * @param predator predator to be updated.
+     */
+    private void updatePredatorPosition(Predator predator){
+        ArrayList<Position> options = new ArrayList<Position>();
+        Position previousPredatorPos = predator.getPosition();
+        int i = previousPredatorPos.getRow();
+        int j = previousPredatorPos.getColumn();
+        
+        //Get all adjacent squares
+        GridSquare[] g = new GridSquare[4];
+        if(i > 0)
+            g[0] = islandGrid[i-1][j];
+        if(i < numRows-1)
+            g[1] = islandGrid[i+1][j];
+        if(j > 0)
+            g[2] = islandGrid[i][j-1];
+        if(j < numColumns-1)
+            g[3] = islandGrid[i][j+1];
+        
+        //Check each square
+        for(int k = 0; k < 4; k++){
+            if(g[k] != null){
+                if(isSquareSafeForPredator(g[k])){
+                    options.add(g[k].getPosition());
+                    if(hasFoodForPredator(g[k]))
+                        options.add(g[k].getPosition());
+                }
+            }
+        }
+        //Update the position
+        Position newPosition = selectRandomOption(options);
+        predator.setPosition(newPosition);
+        GridSquare square = islandGrid[newPosition.getRow()][newPosition.getColumn()];
+        square.addOccupant(predator); //Add to occupant list
+    }
+    
+    /**
+     * Selects a random position from the list provided.
+     * @param options ArrayList of potential positions.
+     * @return randomly selected option.
+     */
+    private Position selectRandomOption(ArrayList<Position> options){
+        Position selectedOption = options.get(new Random().nextInt(options.size()));
+        return selectedOption;
+    }
+    
+    /**
+     * Is the square safe for a kiwi to move onto?
+     * @param square square to be checked.
+     * @return if it is safe.
+     */
+    private boolean isSquareSafeForKiwi(GridSquare square){
+        Occupant[] occupants = square.getOccupants();
+        for(int o = 0; o < occupants.length; o++){
+            if(occupants[o] instanceof Hazard || occupants[o] instanceof Predator){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Is the square containing any food for a kiwi.
+     * @param square square to be checked.
+     * @return if it contains food.
+     */
+    private boolean hasFoodForKiwi(GridSquare square){
+         Occupant[] occupants = square.getOccupants();
+        for(int o = 0; o < occupants.length; o++){
+            if(occupants[o] instanceof Food){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Is the square safe for a predator to move onto?
+     * @param square square to be checked.
+     * @return if it is safe.
+     */
+    private boolean isSquareSafeForPredator(GridSquare square){
+        Occupant[] occupants = square.getOccupants();
+        for(int o = 0; o < occupants.length; o++){
+            if(occupants[o] instanceof Hazard){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Is the square containing any food for a predator.
+     * @param square square to be checked.
+     * @return if it contains food.
+     */
+    private boolean hasFoodForPredator(GridSquare square){
+        Occupant[] occupants = square.getOccupants();
+        for(int o = 0; o < occupants.length; o++){
+            if(occupants[o] instanceof Food || occupants[o] instanceof Kiwi){
+                return true;
+            }
+        }
+        return false;
+    }
+       
     
     /**
      * Attempts to add an occupant to a specified position on the island.
@@ -347,7 +540,7 @@ public class Island
         {
             for (int column = 0; column < this.numColumns; column++) 
             {
-                GridSquare square = new GridSquare(Terrain.WATER);
+                GridSquare square = new GridSquare(Terrain.WATER, new Position(this, row, column));
                 islandGrid[row][column] = square;
             }
         }
