@@ -19,7 +19,10 @@ public class GridSquare
     private boolean visible;
     private boolean explored;
     private Player  player;
+    private Kiwi kiwi;
+    private Predator pre;
     private Set<Occupant> occupants;
+    private Position pos;
   
     /**
      * Creates a new GridSquare instance.
@@ -31,9 +34,16 @@ public class GridSquare
         this.explored  = false;
         this.visible   = false;
         this.occupants = new HashSet<Occupant>(); 
-        this.player    = null;        
+        this.player    = null;
+        this.kiwi = null;
+        this.pre = null;
     }
-    
+    //NOTE: ADDED
+    public GridSquare(Terrain terrain, Position pos) 
+    {
+        this(terrain);
+        this.pos = pos;
+    }
     /**************************************************************************************************
      * Accessor methods
      **************************************************************************************************/
@@ -47,6 +57,14 @@ public class GridSquare
         return terrain;
     }
     
+    /**
+     * Gets the position of this square.
+     * 
+     * @return the position of this square.
+     */
+    public Position getPosition(){
+        return this.pos;
+    }
     /**
      * Check if this grid square has already been explored (ie visited by player).
      * 

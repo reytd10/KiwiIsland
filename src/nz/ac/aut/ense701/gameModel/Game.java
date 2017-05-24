@@ -32,6 +32,7 @@ public class Game
     public static final int MAXSIZE_INDEX = 4;
     public static final int SIZE_INDEX = 5;
     public Position inipos;
+    public int playerMovementCount = 0;
     
     /**
      * A new instance of Kiwi island that reads data from "IslandData.txt".
@@ -536,6 +537,16 @@ public class Game
             checkForHazard();
 
             updateGameState();            
+            
+            //Update method to be called when playerMovementCount is equal to 2
+            if(playerMovementCount == 2){
+                island.updateAllKiwiPosition();
+                System.out.println("Updated Kiwis");
+                island.updateAllPredatorPosition();
+                System.out.println("Updated Predators");
+                playerMovementCount = 0;
+            }
+            playerMovementCount++;
         }
         return successfulMove;
     }
@@ -894,7 +905,11 @@ public class Game
         }
     }    
 
-
+    
+    public void updateKiwiPre(){
+        
+    }
+    
     private Island island;
     private Player player;
     private GameState state;
