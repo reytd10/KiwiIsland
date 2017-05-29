@@ -8,6 +8,9 @@ import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import nz.ac.aut.ense701.gameModel.Game;
+import nz.ac.aut.ense701.gameModel.Kiwi;
+import nz.ac.aut.ense701.gameModel.Occupant;
+import nz.ac.aut.ense701.gameModel.Position;
 import nz.ac.aut.ense701.gameModel.Terrain;
 
 /*
@@ -82,12 +85,23 @@ public class GridSquarePanel extends javax.swing.JPanel
                  lblText.setIcon(null);
              }
             //Adding icon image to Kiwi tiles.
-            if(game.getOccupantStringRepresentation(row,column).equals("K")){
+            if(game.getOccupantStringRepresentation(row,column).contains("K")){
                 Image image = ImageIO.read(getClass().getResource("/assets/kiwi.png"));
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
                 lblText.setText("");
-                 color = new Color(Math.min(255, color.getGreen()));
+                boolean isNotCounted = false;
+                Occupant[] occupants = game.getIsland().getOccupants(new Position(game.getIsland(), row, column));
+                for(int i = 0 ; i < occupants.length; i++){
+                    if(occupants[i] instanceof Kiwi){
+                        if(!((Kiwi) occupants[i]).counted()){
+                            isNotCounted = true;
+                            break;
+                        }
+                    }
+                }
+                if(isNotCounted)
+                    color = new Color(Math.min(255, color.getGreen()));
             }
             //Adding icon image to Predator tiles.
              if(game.getOccupantStringRepresentation(row,column).equals("P")){
@@ -98,6 +112,16 @@ public class GridSquarePanel extends javax.swing.JPanel
                 lblText.setText("");                 
             }
             
+               if(game.getOccupantStringRepresentation(row,column).equals("TR")){
+                 
+                Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
+                ImageIcon icon = new ImageIcon(image); 
+                lblText.setIcon(icon);
+                lblText.setText("");                 
+            }
+            
+             
+             
              
             // Set the colour. 
             if ( squareVisible && !squareExplored ) 

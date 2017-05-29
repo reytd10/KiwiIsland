@@ -65,6 +65,7 @@ public abstract class Occupant
         return this.description;
     }
     
+    
     /**
      * Returns the occupant's name for display.
      * 

@@ -701,6 +701,7 @@ private Score userScore;
         });   	
     }
     
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaControls;
     private javax.swing.JButton btnCollect;
