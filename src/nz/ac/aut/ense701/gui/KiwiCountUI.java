@@ -45,6 +45,7 @@ private Score userScore;
         assert game != null : "Make sure game object is created before UI";
         this.game = game;
         database = new Manager("HighscoreDB","Scores");
+        setResizable(false);
         setAsGameListener();
         initComponents();
         initClosingEvent();
@@ -194,8 +195,6 @@ private Score userScore;
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         javax.swing.JPanel pnlContent = new javax.swing.JPanel();
         pnlIsland = new javax.swing.JPanel();
         javax.swing.JPanel pnlControls = new javax.swing.JPanel();
@@ -215,7 +214,7 @@ private Score userScore;
         txtPredatorsLeft = new javax.swing.JLabel();
         lblTerrain = new javax.swing.JLabel();
         javax.swing.JPanel pnlControl = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        controlInsturc = new javax.swing.JScrollPane();
         areaControls = new javax.swing.JTextArea();
         javax.swing.JPanel pnlInventory = new javax.swing.JPanel();
         javax.swing.JScrollPane scrlInventory = new javax.swing.JScrollPane();
@@ -227,10 +226,6 @@ private Score userScore;
         listObjects = new javax.swing.JList();
         btnCollect = new javax.swing.JButton();
         btnCount = new javax.swing.JButton();
-
-        jLabel1.setText("jLabel1");
-
-        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kiwi Count");
@@ -374,6 +369,8 @@ private Score userScore;
         pnlControl.setBorder(javax.swing.BorderFactory.createTitledBorder("Controls"));
         pnlControl.setLayout(new java.awt.GridBagLayout());
 
+        controlInsturc.setName("controlInstruc"); // NOI18N
+
         areaControls.setEditable(false);
         areaControls.setColumns(20);
         areaControls.setRows(5);
@@ -382,12 +379,12 @@ private Score userScore;
         areaControls.setFocusable(false);
         areaControls.setOpaque(false);
         areaControls.setPreferredSize(new java.awt.Dimension(250, 96));
-        jScrollPane1.setViewportView(areaControls);
+        controlInsturc.setViewportView(areaControls);
         areaControls.setLineWrap(true);
 
         areaControls.setWrapStyleWord(true);
 
-        pnlControl.add(jScrollPane1, new java.awt.GridBagConstraints());
+        pnlControl.add(controlInsturc, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -708,9 +705,7 @@ private Score userScore;
     private javax.swing.JButton btnCount;
     private javax.swing.JButton btnDrop;
     private javax.swing.JButton btnUse;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane controlInsturc;
     private javax.swing.JLabel lblKiwisCounted;
     private javax.swing.JLabel lblPredators;
     private javax.swing.JLabel lblTerrain;

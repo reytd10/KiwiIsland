@@ -34,14 +34,15 @@ public class Game
     public static final int SIZE_INDEX = 5;
     public Position inipos;
     public int playerMovementCount = 0;
+    private String mapName;
     
     /**
      * A new instance of Kiwi island that reads data from "IslandData.txt".
      */
-    public Game() 
+    public Game(String file) 
     {   
         eventListeners = new HashSet<GameEventListener>();
-
+        this.mapName = file + ".txt";
         createNewGame();
     }
     
@@ -57,7 +58,7 @@ public class Game
         predatorsTrapped = 0;
         kiwiCount = 0;
         itemUsage = 0;
-        initialiseIslandFromFile("IslandData.txt");
+        initialiseIslandFromFile("./Maps/"+mapName);
         drawIsland();
         state = GameState.PLAYING;
         winMessage = "";

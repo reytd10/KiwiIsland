@@ -102,27 +102,31 @@ public class GridSquarePanel extends javax.swing.JPanel
                 }
                 if(isNotCounted)
                     color = new Color(Math.min(255, color.getGreen()));
+            } else {
+               if(game.getOccupantStringRepresentation(row,column).contains("TR")){
+                 
+                    Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
+                    ImageIcon icon = new ImageIcon(image); 
+                    lblText.setIcon(icon);
+                    lblText.setText("");                 
+                }
             }
             //Adding icon image to Predator tiles.
-             if(game.getOccupantStringRepresentation(row,column).equals("P")){
+             if(game.getOccupantStringRepresentation(row,column).contains("P")){
                  
                 Image image = ImageIO.read(getClass().getResource("/assets/predatorB.png"));
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
                 lblText.setText("");                 
-            }
-            
+            } else {
                if(game.getOccupantStringRepresentation(row,column).equals("TR")){
                  
-                Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
-                ImageIcon icon = new ImageIcon(image); 
-                lblText.setIcon(icon);
-                lblText.setText("");                 
+                    Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
+                    ImageIcon icon = new ImageIcon(image); 
+                    lblText.setIcon(icon);
+                    lblText.setText("");                 
+                }
             }
-            
-             
-             
-             
             // Set the colour. 
             if ( squareVisible && !squareExplored ) 
             {

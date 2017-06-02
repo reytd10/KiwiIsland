@@ -6,8 +6,9 @@
 package nz.ac.aut.ense701.gui;
 
 import java.awt.Image;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import java.io.File;
+import java.util.Random;
+import javax.swing.DefaultListModel;
 import nz.ac.aut.ense701.database.Manager;
 import nz.ac.aut.ense701.gameModel.Game;
 import nz.ac.aut.ense701.gameModel.GameState;
@@ -20,14 +21,19 @@ import nz.ac.aut.ense701.main.Main;
  */
 public class Menu extends javax.swing.JFrame {
     private Manager database;
+    private int itemCount = 0;
     /**
      * Creates new form NewJFrame
      */
     public Menu() {
         initComponents();
-        Main.setGameState(GameState.MENU);            
+        Main.setGameState(GameState.MENU);      
+        setResizable(false);
     }
 
+    
+
+    
     /**
      * Screen change happens by changing the setVisible method 
      * The Frames in the starting frame should not have key functionality
@@ -39,38 +45,29 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        titlePanel = new javax.swing.JPanel();
+        buttonPanel = new javax.swing.JPanel();
         StartButton = new javax.swing.JButton();
         ExitButton = new javax.swing.JButton();
-        OptionsButton = new javax.swing.JButton();
         HighscoreButton = new javax.swing.JButton();
+        levelSelect = new javax.swing.JScrollPane();
+        mapList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Title Screen");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+        titlePanel.setLayout(titlePanelLayout);
+        titlePanelLayout.setHorizontalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 833, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        titlePanelLayout.setVerticalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 126, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
-
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        jPanel7.setLayout(new java.awt.GridLayout(0, 1));
-        jPanel4.add(jPanel7, new java.awt.GridBagConstraints());
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        getContentPane().add(titlePanel, java.awt.BorderLayout.PAGE_START);
 
         StartButton.setText("Start");
         StartButton.setToolTipText("");
@@ -88,13 +85,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        OptionsButton.setText("Options");
-        OptionsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                OptionsButtonActionPerformed(evt);
-            }
-        });
-
         HighscoreButton.setText("Highscore");
         HighscoreButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,49 +92,39 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(221, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(220, 220, 220))
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        mapList.setModel(getMapItems());
+        mapList.setSelectedIndex(0);
+        levelSelect.setViewportView(mapList);
+
+        javax.swing.GroupLayout buttonPanelLayout = new javax.swing.GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
                 .addGap(370, 370, 370)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(HighscoreButton)
-                    .addComponent(OptionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ExitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(StartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(levelSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(ExitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                        .addComponent(StartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                        .addComponent(HighscoreButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(372, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel2)
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
                 .addGap(169, 169, 169)
                 .addComponent(StartButton)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(levelSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HighscoreButton)
-                .addGap(30, 30, 30)
-                .addComponent(OptionsButton)
-                .addGap(46, 46, 46)
+                .addGap(35, 35, 35)
                 .addComponent(ExitButton)
-                .addGap(0, 142, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(0, 130, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(buttonPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -155,21 +135,38 @@ public class Menu extends javax.swing.JFrame {
 
     //create new game and GUI when start button is clicked
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
-       
-        final Game game = new Game();
+        final Game game;
+        if(mapList.getSelectedIndex() <= 0) randomSelectMap();
+            
+        game = new Game(mapList.getSelectedValue());
         final KiwiCountUI  gui  = new KiwiCountUI(game);
         gui.setVisible(true);
         dispose();
-       
+        
     }//GEN-LAST:event_StartButtonActionPerformed
-
-    private void OptionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OptionsButtonActionPerformed
-        Main.setGameState(GameState.OPTIONS);
-    }//GEN-LAST:event_OptionsButtonActionPerformed
-
+    private DefaultListModel getMapItems(){
+        File directory = new File("./Maps");
+        File[] files = directory.listFiles();
+        DefaultListModel<String> maps = new DefaultListModel<String>();
+        maps.addElement("Random Map");
+        for(int i = 0; i < files.length; i++){
+            if(files[i].getName().endsWith(".txt")){
+                String temp = files[i].getName();
+                String filename = temp.substring(0, temp.length()-4);
+                maps.addElement(filename);
+                itemCount++;
+            }
+        }
+        return maps;
+    }
+    private void randomSelectMap(){
+        Random rnd = new Random();
+        int result = rnd.nextInt(itemCount)+1; // 1...2
+        mapList.setSelectedIndex(result);
+    }
     private void HighscoreButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HighscoreButtonActionPerformed
         database = new Manager("HighscoreDB","Scores");
-         DatabaseUI databaseUI = new DatabaseUI(database);
+        DatabaseUI databaseUI = new DatabaseUI(database);
         databaseUI.setVisible(true);
     }//GEN-LAST:event_HighscoreButtonActionPerformed
 
@@ -177,12 +174,10 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ExitButton;
     private javax.swing.JButton HighscoreButton;
-    private javax.swing.JButton OptionsButton;
     private javax.swing.JButton StartButton;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JScrollPane levelSelect;
+    private javax.swing.JList<String> mapList;
+    private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
 }
