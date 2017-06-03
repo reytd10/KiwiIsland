@@ -314,7 +314,7 @@
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
-                        <Property name="text" type="java.lang.String" value=" - [Arrow] keys to move around.&#xa; - [Space] to count kiwi.&#xa; - [Z] to use selected Item.&#xa; - [X] to drop selected Item.&#xa; - [C] to collect selected Item.&#xa; - [R] to reset the game."/>
+                        <Property name="text" type="java.lang.String" value=" - [Arrow] keys to move around.&#xa; - [Space] to count kiwi.&#xa; - [Z] to use selected Item.&#xa; - [X] to drop selected Item.&#xa; - [C] to collect selected Item.&#xa; - [R] to reset the game.&#xa; - [S] to stop and return."/>
                         <Property name="autoscrolls" type="boolean" value="false"/>
                         <Property name="focusable" type="boolean" value="false"/>
                         <Property name="opaque" type="boolean" value="false"/>

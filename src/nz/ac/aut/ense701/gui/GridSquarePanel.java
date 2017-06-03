@@ -66,18 +66,23 @@ public class GridSquarePanel extends javax.swing.JPanel
              if(game.getOccupantStringRepresentation(row, column).equals("T")){
                 System.out.print("A Tool");
                 if(game.getOccupantName(row, column).equals("Trap")) {
-                     System.out.print("A Trap");
-                     Image image = ImageIO.read(getClass().getResource("/assets/trap1.png"));
-                     ImageIcon icon = new ImageIcon(image);                      
-                     lblText.setIcon(icon);
-                     lblText.setText("");   
+                    System.out.print("A Trap");
+                    Image image = ImageIO.read(getClass().getResource("/assets/trap1.png"));
+                    if(this.getWidth() != 0 && this.getHeight() != 0)
+                        image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
+                    
+                    ImageIcon icon = new ImageIcon(image);                      
+                    lblText.setIcon(icon);
+                    lblText.setText("");   
                  }
                  if(game.getOccupantName(row, column).equals("Screwdriver")) {
-                     System.out.print("A Screwdriver");
-                     Image image = ImageIO.read(getClass().getResource("/assets/screwdriver1.png"));
-                     ImageIcon icon = new ImageIcon(image); 
+                    System.out.print("A Screwdriver");
+                    Image image = ImageIO.read(getClass().getResource("/assets/screwdriver1.png"));
+                    if(this.getWidth() != 0 && this.getHeight() != 0)
+                        image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
+                    ImageIcon icon = new ImageIcon(image); 
                     lblText.setIcon(icon);
-                     lblText.setText(""); 
+                    lblText.setText(""); 
                      
                  }                                   
              }
@@ -87,6 +92,8 @@ public class GridSquarePanel extends javax.swing.JPanel
             //Adding icon image to Kiwi tiles.
             if(game.getOccupantStringRepresentation(row,column).contains("K")){
                 Image image = ImageIO.read(getClass().getResource("/assets/kiwi.png"));
+                if(this.getWidth() != 0 && this.getHeight() != 0)
+                    image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
                 lblText.setText("");
@@ -106,6 +113,8 @@ public class GridSquarePanel extends javax.swing.JPanel
                if(game.getOccupantStringRepresentation(row,column).contains("TR")){
                  
                     Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
+                    if(this.getWidth() != 0 && this.getHeight() != 0)
+                        image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(image); 
                     lblText.setIcon(icon);
                     lblText.setText("");                 
@@ -115,6 +124,8 @@ public class GridSquarePanel extends javax.swing.JPanel
              if(game.getOccupantStringRepresentation(row,column).contains("P")){
                  
                 Image image = ImageIO.read(getClass().getResource("/assets/predatorB.png"));
+                if(this.getWidth() != 0 && this.getHeight() != 0)
+                    image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
                 ImageIcon icon = new ImageIcon(image); 
                 lblText.setIcon(icon);
                 lblText.setText("");                 
@@ -122,6 +133,8 @@ public class GridSquarePanel extends javax.swing.JPanel
                if(game.getOccupantStringRepresentation(row,column).equals("TR")){
                  
                     Image image = ImageIO.read(getClass().getResource("/assets/kiwitrail.png"));
+                    if(this.getWidth() != 0 && this.getHeight() != 0)
+                        image = image.getScaledInstance(this.getWidth(), this.getHeight()/2, Image.SCALE_DEFAULT);
                     ImageIcon icon = new ImageIcon(image); 
                     lblText.setIcon(icon);
                     lblText.setText("");                 

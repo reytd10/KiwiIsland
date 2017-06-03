@@ -2,17 +2,9 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 import nz.ac.aut.ense701.database.Manager;
 import nz.ac.aut.ense701.gameModel.Score;
 
@@ -52,6 +44,7 @@ private Score userScore;
         addMovingKeyActions();
         initIslandGrid();     
         update();
+        setLocationRelativeTo(null);
     }
     
     private void initClosingEvent(){
@@ -374,7 +367,7 @@ private Score userScore;
         areaControls.setEditable(false);
         areaControls.setColumns(20);
         areaControls.setRows(5);
-        areaControls.setText(" - [Arrow] keys to move around.\n - [Space] to count kiwi.\n - [Z] to use selected Item.\n - [X] to drop selected Item.\n - [C] to collect selected Item.\n - [R] to reset the game.");
+        areaControls.setText(" - [Arrow] keys to move around.\n - [Space] to count kiwi.\n - [Z] to use selected Item.\n - [X] to drop selected Item.\n - [C] to collect selected Item.\n - [R] to reset the game.\n - [S] to stop and return.");
         areaControls.setAutoscrolls(false);
         areaControls.setFocusable(false);
         areaControls.setOpaque(false);
@@ -669,23 +662,30 @@ private Score userScore;
                 }
                  if (e.getKeyCode()==KeyEvent.VK_Z){
                     System.out.println("Use Items");
-                        game.useItem(listInventory.getSelectedValue());
+                    game.useItem(listInventory.getSelectedValue());
                 }
                  if (e.getKeyCode()==KeyEvent.VK_X){
-                     System.out.println("Drop Items");
-                        game.dropItem(listInventory.getSelectedValue());
+                    System.out.println("Drop Items");
+                    game.dropItem(listInventory.getSelectedValue());
                 }
                  if (e.getKeyCode()==KeyEvent.VK_C){
                     System.out.println("Colect Items");
-                        game.collectItem(listObjects.getSelectedValue());
+                    game.collectItem(listObjects.getSelectedValue());
                 }
                  if (e.getKeyCode()==KeyEvent.VK_SPACE){
                      System.out.println("Count Kiwi");
-                        btnCount.doClick();
+                    btnCount.doClick();
                 }
                 if (e.getKeyCode()==KeyEvent.VK_R){
                     System.out.println("Reset");
-                        restart();
+                    restart();
+                }
+                if (e.getKeyCode()==KeyEvent.VK_S){
+                    System.out.println("Return");
+                    game = null;
+                    final Menu  gui  = new Menu();
+                    gui.setVisible(true);
+                    dispose();
                 }
             }
             @Override

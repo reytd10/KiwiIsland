@@ -7,7 +7,11 @@ package nz.ac.aut.ense701.gui;
 
 import java.awt.Image;
 import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import nz.ac.aut.ense701.database.Manager;
 import nz.ac.aut.ense701.gameModel.Game;
@@ -29,6 +33,7 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         Main.setGameState(GameState.MENU);      
         setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     
@@ -45,7 +50,7 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titlePanel = new javax.swing.JPanel();
+        titlePanel = new ImagePanel(loadTitleImage());
         buttonPanel = new javax.swing.JPanel();
         StartButton = new javax.swing.JButton();
         ExitButton = new javax.swing.JButton();
@@ -64,7 +69,7 @@ public class Menu extends javax.swing.JFrame {
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 198, Short.MAX_VALUE)
         );
 
         getContentPane().add(titlePanel, java.awt.BorderLayout.PAGE_START);
@@ -121,7 +126,7 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(HighscoreButton)
                 .addGap(35, 35, 35)
                 .addComponent(ExitButton)
-                .addGap(0, 130, Short.MAX_VALUE))
+                .addGap(0, 50, Short.MAX_VALUE))
         );
 
         getContentPane().add(buttonPanel, java.awt.BorderLayout.CENTER);
@@ -138,7 +143,7 @@ public class Menu extends javax.swing.JFrame {
         final Game game;
         if(mapList.getSelectedIndex() <= 0) randomSelectMap();
             
-        game = new Game(mapList.getSelectedValue());
+        game = new Game(mapList.getSelectedValue(), true);
         final KiwiCountUI  gui  = new KiwiCountUI(game);
         gui.setVisible(true);
         dispose();
@@ -158,6 +163,14 @@ public class Menu extends javax.swing.JFrame {
             }
         }
         return maps;
+    }
+    private Image loadTitleImage(){
+        try {
+            return ImageIO.read(getClass().getResource("/assets/menuLogo.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     private void randomSelectMap(){
         Random rnd = new Random();

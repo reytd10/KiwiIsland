@@ -35,14 +35,13 @@ public class Game
     public Position inipos;
     public int playerMovementCount = 0;
     private String mapName;
+    private boolean isDynamic;
     
-    /**
-     * A new instance of Kiwi island that reads data from "IslandData.txt".
-     */
-    public Game(String file) 
+    public Game(String file, boolean isDynamic) 
     {   
         eventListeners = new HashSet<GameEventListener>();
         this.mapName = file + ".txt";
+        this.isDynamic = isDynamic;
         createNewGame();
     }
     
@@ -549,7 +548,7 @@ public class Game
                 System.out.println("Updated Predators");
                 playerMovementCount = 0;
             }
-            playerMovementCount++;
+            if(isDynamic) playerMovementCount++;
         }
         return successfulMove;
     }
